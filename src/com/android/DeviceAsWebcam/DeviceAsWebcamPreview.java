@@ -63,7 +63,6 @@ import androidx.cardview.widget.CardView;
 import com.android.DeviceAsWebcam.view.SelectorListItemData;
 import com.android.DeviceAsWebcam.view.SwitchCameraSelectorView;
 import com.android.DeviceAsWebcam.view.ZoomController;
-import com.android.deviceaswebcam.flags.Flags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +90,7 @@ public class DeviceAsWebcamPreview extends Activity {
     private ZoomController mZoomController = null;
     private ImageButton mToggleCameraButton;
     private ImageButton mHighQualityToggleButton;
+    private boolean mHighQualityModeEnabled = true;
     private SwitchCameraSelectorView mSwitchCameraSelectorView;
     private List<SelectorListItemData> mSelectorListItemDataList;
     // A listener to monitor the preview size change events. This might be invoked when toggling
@@ -478,6 +478,7 @@ public class DeviceAsWebcamPreview extends Activity {
         mToggleCameraButton = findViewById(R.id.toggle_camera_button);
         mZoomController = findViewById(R.id.zoom_ui_controller);
         mSwitchCameraSelectorView = findViewById(R.id.switch_camera_selector_view);
+        mHighQualityModeEnabled = true;
         mHighQualityToggleButton = findViewById(R.id.high_quality_button);
 
         mAccessibilityManager = getSystemService(AccessibilityManager.class);
@@ -510,7 +511,9 @@ public class DeviceAsWebcamPreview extends Activity {
             return WindowInsets.CONSUMED;
         });
 
-        if (!Flags.highQualityToggle()) {
+        if (mHighQualityModeEnabled) {
+            mHighQualityToggleButton.setVisibility(View.VISIBLE);
+        } else {
             mHighQualityToggleButton.setVisibility(View.GONE);
         }
 
